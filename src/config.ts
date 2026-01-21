@@ -45,7 +45,7 @@ nconf.defaults({
   },
   extraField: null,
   dataDir: SBS_HOME,
-  filesInDatabase: true,
+  filesInDatabase: false,
   fileMaxUploadSize: Infinity
 });
 

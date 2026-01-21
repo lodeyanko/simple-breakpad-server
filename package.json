@@ -21,12 +21,11 @@
     "prepublish": "yarn run build"
   },
   "dependencies": {
-    "@jimbly/minidump": "^0.0.6",
     "@popperjs/core": "^2.11.8",
     "@types/fs-extra": "^11.0.4",
     "addr": "^1.0.1",
     "body-parser": "^2.2.2",
-    "bootstrap": "^5.3.8",
+    "bootstrap": "^3.3.7",
     "connect-busboy": "^1.0.0",
     "express": "^5.2.1",
     "express-decompress": "^0.0.2",

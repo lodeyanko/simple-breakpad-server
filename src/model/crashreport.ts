@@ -2,15 +2,44 @@ import config, { getSymbolsPath, getUploadPath } from '../config';
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import cache from './cache';
-import * as minidump from '@jimbly/minidump';
 import { DataTypes, Model, ModelStatic } from 'sequelize';
 import sequelize from './db';
 import * as tmp from 'tmp';
+import { spawn } from 'child_process';
 
 const symbolsPath = getSymbolsPath();
 
 // custom fields should have 'files' and 'params'
 const customFields = config.get('customFields') || {};
+
+const walkStack = (minidumpPath: string, symbolPaths: string[], callback: (err: any, report?: any) => void) => {
+  const output: Buffer[] = [];
+  const errorOutput: Buffer[] = [];
+  
+  const child = spawn('minidump-stackwalk', [minidumpPath, ...symbolPaths]);
+
+  child.stdout.on('data', (data) => {
+    output.push(data);
+  });
+
+  child.stderr.on('data', (data) => {
+    errorOutput.push(data);
+  });
+
+  child.on('close', (code) => {
+    if (code !== 0) {
+      const errorMsg = Buffer.concat(errorOutput).toString();
+      callback(new Error(`minidump-stackwalk exited with code ${code}: ${errorMsg}`));
+    } else {
+      const report = Buffer.concat(output).toString();
+      callback(null, report);
+    }
+  });
+
+  child.on('error', (err) => {
+    callback(err);
+  });
+};
 
 const schema: any = {
   id: {
@@ -80,7 +109,7 @@ Crashreport.getStackTrace = (record: CrashreportInstance, callback: (err: any, r
     if (onDiskFilename) {
       // use existing file, do not delete when done!
       const use_filename = path.join(getUploadPath(), onDiskFilename);
-      return minidump.walkStack(use_filename, [symbolsPath], (err: any, report: any) => {
+      return walkStack(use_filename, [symbolsPath], (err: any, report: any) => {
         if (!err) cache.set(record.id, report);
         callback(err, report);
       });
@@ -89,7 +118,7 @@ Crashreport.getStackTrace = (record: CrashreportInstance, callback: (err: any, r
 
   const tmpfile = tmp.fileSync();
   fs.writeFile(tmpfile.name, record.upload_file_minidump).then(() => {
-    minidump.walkStack(tmpfile.name, [symbolsPath], (err: any, report: any) => {
+    walkStack(tmpfile.name, [symbolsPath], (err: any, report: any) => {
       tmpfile.removeCallback();
       if (!err) cache.set(record.id, report);
       callback(err, report);
