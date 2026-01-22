@@ -69,6 +69,9 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
+  "resolutions": {
+    "tar": "7.5.6"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/acrisci/simple-breakpad-server.git"
@@ -76,5 +79,6 @@
   "bugs": {
     "url": "https://github.com/acrisci/simple-breakpad-server/issues"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "yarn@4.12.0"
 }
