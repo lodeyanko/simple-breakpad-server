@@ -1,4 +1,4 @@
-<div class="page-header">
+<div class="mb-4">
   <h1>Symfiles</h1>
 </div>
 {{#if records}}
@@ -7,25 +7,24 @@
   <tr>
     <th>Contents</th>
     {{#each fields}}
-      <th>{{titleCase this}}</th>
+    <th>{{titleCase this}}</th>
     {{/each}}
   </tr>
 
   {{#each records}}
-    <tr>
-      <td>
-        <a href="{{symfileUrl this.id}}">view</a>
-      </td>
+  <tr>
+    <td>
+      <a href="{{symfileUrl this.id}}">view</a>
+    </td>
     {{#each this.props}}
-      <td>
-        {{this}}
-      </td>
+    <td>
+      {{this}}
+    </td>
     {{/each}}
-    </tr>
+  </tr>
   {{/each}}
 </table>
 {{> pagination}}
 {{else}}
-  <p>No symfiles</p>
+<p>No symfiles</p>
 {{/if}}
-

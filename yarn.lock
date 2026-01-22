@@ -677,10 +677,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap@npm:^3.3.7":
-  version: 3.4.1
-  resolution: "bootstrap@npm:3.4.1"
-  checksum: 10c0/3ac443985a432fd77f1d6df2972d8f0a06e93bb0e10893fa890e6503e6d2b36e601f4a9894429223afa867c2232ead1af5c55ded4c23a64dc706ca25e49dc2da
+"bootstrap@npm:^5.3.8":
+  version: 5.3.8
+  resolution: "bootstrap@npm:5.3.8"
+  peerDependencies:
+    "@popperjs/core": ^2.11.8
+  checksum: 10c0/0039a9df2c3e7bfa04f1abca199c299ff3b75869d578c0cb1721c6f1f203c91531788a5631ecbee01513481979314d0e4ba0d90c2011e6ce18fc2e0bc93e18d9
   languageName: node
   linkType: hard
 
@@ -3031,7 +3033,7 @@ __metadata:
     "@types/validator": "npm:^13.15.10"
     addr: "npm:^1.0.1"
     body-parser: "npm:^2.2.2"
-    bootstrap: "npm:^3.3.7"
+    bootstrap: "npm:^5.3.8"
     connect-busboy: "npm:^1.0.0"
     express: "npm:^5.2.1"
     express-decompress: "npm:^0.0.2"
